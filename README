@@ -1,0 +1,53 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1035
+
+Find the matching ISO 639 (http://www.loc.gov/standards/iso639-2/langcodes.html) language abbreviation or name when passed the other.
+
+Usage
+
+  Cream_iso639(word, ...)
+
+o Test {word} for match of ISO639-compliant language name, 3- or 2-letter abbreviation:
+  * Returns name if {word} matches either abbreviation.
+  * Returns 3-letter if {word} matches name.
+  * Returns 0 if no match is made.
+o Use {optional} argument to force a given return:
+  * Returns 3-letter if {optional} is "3" and {word} matches.
+  * Returns 2-letter if {optional} is "2" and {word} matches. (If no 2-letter exists, the 3-letter is returned.)
+  * Returns name if {optional} is "name" and {word} matches.
+  * Returns 0 if no match is made.
+o Matching is case-insensitive. But return values are capitalized according to the standard. (Name is title case, abbreviations are lower case.)
+o In a number of cases, ISO639-2 allows multiple descriptive names for a language. 
+  * When passed the matching abbreviation, the function will return the preferred description (listed first in the ISO list). 
+  * Conversely, any of the listed descriptions can be matched, not just the preferred.
+
+Examples
+
+  Condition where 2- and 3-letter abbreviations exist a language:
+
+  :echo Cream_iso639("abk")                      returns "Abkhazian"
+  :echo Cream_iso639("ab")                        returns "Abkhazian"
+  :echo Cream_iso639("Abkhazian")           returns "abk"
+
+  :echo Cream_iso639("Abkhazian", "3")    returns "abk"
+  :echo Cream_iso639("abk", "3")                returns "abk"
+  :echo Cream_iso639("ab", "3")                  returns "abk"
+  :echo Cream_iso639("Abkhazian", "2")    returns "ab"
+  :echo Cream_iso639("abk", "2")                returns "ab"
+  :echo Cream_iso639("ab", "2")                  returns "ab"
+  :echo Cream_iso639("Abkhazian", "name")  returns "Abkhazian"
+  :echo Cream_iso639("abk", "name")        returns "Abkhazian"
+  :echo Cream_iso639("ab", "name")          returns "Abkhazian"
+
+  Condition where a 2-letter abbreviation doesn't exist for language:
+
+  :echo Cream_iso639("Achinese")             returns "ace"
+  :echo Cream_iso639("ace")                       returns "Achinese"
+  :echo Cream_iso639("Achinese", "2")      returns "ace"
+  :echo Cream_iso639("ace", "2")               returns "ace"
+
+  Name or abbreviation unmatched:
+
+  :echo Cream_iso639("not-a-name")         returns 0
+  :echo Cream_iso639("not")                       returns 0
+
+
